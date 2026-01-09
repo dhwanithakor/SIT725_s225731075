@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Books Catalogue</title>
+</head>
+<body>
+
+<h2>Books Catalogue developed by s225731075</h2>
+
+<button id="getBooksBtn">Get all books</button>
+
+<ul id="booksList"></ul>
+<div id="bookDetails"></div>
+
+<script>
+  const btn = document.getElementById('getBooksBtn');
+  const list = document.getElementById('booksList');
+  const details = document.getElementById('bookDetails');
+
+  btn.addEventListener('click', async () => {
+    list.innerHTML = 'Loading...';
+    details.innerHTML = '';
+
+    try {
+      const response = await fetch('/api/books');
+      const books = await response.json();
+
+      list.innerHTML = '';
+
+      books.forEach(book => {
+        const li = document.createElement('li');
+        li.textContent = `${book.title} ${book.price.$numberDecimal} AUD`;
+        li.style.cursor = 'pointer';
+
+        li.addEventListener('click', () => loadBook(book.id));
+        list.appendChild(li);
+      });
+    } catch (err) {
+      list.innerHTML = 'Error loading books';
+      console.error(err);
+    }
+  });
+
+  async function loadBook(id) {
+    const response = await fetch(`/api/books/${id}`);
+    const book = await response.json();
+
+    details.innerHTML = `
+      <h3>Title: ${book.title}</h3>
+      <p>Author: ${book.author}</p>
+      <p>Year: ${book.year}</p>
+      <p>Genre: ${book.genre}</p>
+      <p>Summary: ${book.summary}</p>
+      <p>Price (AUD): ${book.price}</p>
+    `;
+  }
+</script>
+
+</body>
+</html>
