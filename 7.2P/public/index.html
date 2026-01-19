@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socket Demo</title>
+</head>
+<body>
+  <h2>Real-Time Message Demo</h2>
+
+  <input type="text" id="messageInput" placeholder="Type a message">
+  <button onclick="sendMessage()">Send</button>
+
+  <h3>Messages:</h3>
+  <ul id="messages"></ul>
+
+  
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="scripts.js"></script>
+</body>
+</html>
